@@ -13,8 +13,8 @@ import jakarta.persistence.GenerationType;
 public class User {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
     @Column(name = "firstName")
     private String firstName;
@@ -22,44 +22,48 @@ public class User {
     @Column(name = "lastName")
     private String lastName;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "phone")
     private String phone;
 
-    @OneToOne(orphanRemoval = true)
+    @OneToOne(mappedBy = "user")
     private UserLoginInformation userLoginInformation;
+
+    public Integer getId() {
+        return this.id;
+    }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public String firstName() {
-        return firstName;
+    public String getFirstName() {
+        return this.firstName;
     }
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public String lastName() {
-        return lastName;
+    public String getLastName() {
+        return this.lastName;
     }
 
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public String email() {
-        return email;
+    public String getEmail() {
+        return this.email;
     }
 
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
-    public String phone() {
-        return phone;
+    public String getPhone() {
+        return this.phone;
     }
 }
