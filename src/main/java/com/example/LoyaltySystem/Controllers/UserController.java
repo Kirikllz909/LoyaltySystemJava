@@ -21,7 +21,7 @@ public class UserController {
     @GetMapping("/user/{id}")
     public User getUser(@PathVariable Integer id)
             throws Exception {
-        return userRepository.findById(id).orElseThrow(() -> new Exception("User not found"));
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
 
     }
 
@@ -31,7 +31,7 @@ public class UserController {
     }
 
     @PostMapping("/addUser")
-    public String addUser(@RequestBody User user) throws Exception {
+    public String addUser(@RequestBody User user) {
         try {
             user.setEmail(user.getEmail().toLowerCase());
             userRepository.save(user);
@@ -48,14 +48,14 @@ public class UserController {
     }
 
     @PutMapping("/updateUser/{id}")
-    public User patchUser(@PathVariable Integer id, @RequestBody User newUser) throws Exception {
+    public User patchUser(@PathVariable Integer id, @RequestBody User newUser) throws UserNotFoundException {
         return userRepository.findById(id).map(user -> {
             user.setFirstName(newUser.getFirstName());
             user.setLastName(newUser.getLastName());
             user.setEmail(newUser.getEmail());
             user.setPhone(newUser.getPhone());
             return userRepository.save(user);
-        }).orElseThrow(() -> new Exception("User not found"));
+        }).orElseThrow(() -> new UserNotFoundException());
     }
 
 }
