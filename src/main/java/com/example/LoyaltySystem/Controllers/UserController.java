@@ -2,6 +2,7 @@ package com.example.LoyaltySystem.Controllers;
 
 import com.example.LoyaltySystem.Models.User;
 import com.example.LoyaltySystem.Repositories.UserRepository;
+import com.example.LoyaltySystem.Exceptions.UserNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +21,7 @@ public class UserController {
 
     @GetMapping("/user/{id}")
     public User getUser(@PathVariable Integer id)
-            throws Exception {
+            throws UserNotFoundException {
         return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
 
     }
@@ -30,15 +31,15 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @PostMapping("/addUser")
+    @PostMapping("/user")
     public String addUser(@RequestBody User user) {
         try {
             user.setEmail(user.getEmail().toLowerCase());
             userRepository.save(user);
+            return "User was successfully added";
         } catch (Exception e) {
             return "Unable to add user. " + user.getEmail() + " is already used";
         }
-        return "User was successfully added";
     }
 
     @DeleteMapping("/deleteUser/{id}")
