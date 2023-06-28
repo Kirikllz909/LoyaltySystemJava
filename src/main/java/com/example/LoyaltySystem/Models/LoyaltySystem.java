@@ -1,9 +1,11 @@
 package com.example.LoyaltySystem.Models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Table;
 
 import java.util.Set;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
@@ -23,7 +25,10 @@ public class LoyaltySystem {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(orphanRemoval = true)
+    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "loyaltySystem")
     private Set<OptionsCriteria> criterias;
+
+    @OneToMany(orphanRemoval = false, fetch = FetchType.LAZY, mappedBy = "loyaltySystem")
+    private List<User> users;
 
 }
