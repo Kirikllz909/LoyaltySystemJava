@@ -6,6 +6,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -22,7 +23,8 @@ public class UserLoginInformation {
     @Column(name = "password")
     private String password;
 
-    @OneToOne(mappedBy = "userLoginInformation")
+    @OneToOne(orphanRemoval = true)
+    @JoinColumn(name = "user_id")
     private User user;
 
     public void setLogin(String login) {
