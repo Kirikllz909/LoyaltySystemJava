@@ -1,21 +1,17 @@
-package com.example.LoyaltySystem.Controllers;
+package com.example.LoyaltySystem.ExceptionsHandlers;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-class UserNotFoundException extends RuntimeException {
-    UserNotFoundException() {
-        super("User not found");
-    }
-}
+import com.example.LoyaltySystem.Exceptions.UserNotFoundException;
 
 @ControllerAdvice
-public class UserAdvice {
+public class UserNotFoundExceptionHandler {
 
     @ResponseBody
     @ExceptionHandler(UserNotFoundException.class)
-    public String userNotFoundHandler(UserNotFoundException error) {
+    public String userNotFoundHandle(UserNotFoundException error) {
         return error.getMessage();
     }
 }
