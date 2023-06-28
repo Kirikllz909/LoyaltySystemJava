@@ -1,8 +1,16 @@
 package com.example.LoyaltySystem.Models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
@@ -28,8 +36,15 @@ public class User {
     @Column(name = "phone")
     private String phone;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
     private UserLoginInformation userLoginInformation;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<Purchase> purchases;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "loyaltySystemId")
+    private LoyaltySystem loyaltySystem;
 
     public Integer getId() {
         return this.id;
@@ -65,5 +80,29 @@ public class User {
 
     public String getPhone() {
         return this.phone;
+    }
+
+    public void setUserLoginInformation(UserLoginInformation userLoginInformation) {
+        this.userLoginInformation = userLoginInformation;
+    }
+
+    public UserLoginInformation getUserLoginInformation() {
+        return this.userLoginInformation;
+    }
+
+    public void setPurchases(List<Purchase> purchases) {
+        this.purchases = purchases;
+    }
+
+    public List<Purchase> getPurchases() {
+        return this.purchases;
+    }
+
+    public void setLoyaltySystem(LoyaltySystem loyaltySystem) {
+        this.loyaltySystem = loyaltySystem;
+    }
+
+    public LoyaltySystem getLoyaltySystem() {
+        return this.loyaltySystem;
     }
 }
